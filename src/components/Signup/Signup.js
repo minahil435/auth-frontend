@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { isAlpha, isEmail, isAlphanumeric, isStrongPassword } from "validator";
-import "./Signup.css";
+import React, { Component } from "react"; 
+import { isAlpha, isEmail, isAlphanumeric, isStrongPassword } from "validator"; //importing functions from validator to validate the input fields
+import "./Signup.css"; //bring style sheet for signup 
 
 export class Signup extends Component {
   state = {
@@ -10,23 +10,27 @@ export class Signup extends Component {
     email: "",
     password: "",
     confirmPassword: "",
-    firstNameError: "",
+    //field variables
+    firstNameError: "",  
     lastNameError: "",
     usernameError: "",
     emailError: "",
     passwordError: "",
     confirmPasswordError: "",
+    //error messages unique to each fields because different validation checks for each field
     onConfirmPasswordFocus: false,
     isButtonDisabled: true,
   };
 
+  //this function detects when the value of an input element changes.
   handleOnChange = (event) => {
     this.setState(
       {
-        [event.target.name]: event.target.value,
+        [event.target.name]: event.target.value, //setting the values of field in the state attributes
       },
+      //these callback functions first detect in which input field user typing, then apply validation functions accordingly. 
       () => {
-        if (
+        if( 
           event.target.name === "firstName" ||
           event.target.name === "lastName"
         ) {
@@ -51,6 +55,7 @@ export class Signup extends Component {
     );
   };
 
+  //check if password and confirm password input matches, incase it doesnt match error message is shown 
   handleConfirmPasswordInput = () => {
     if (this.state.password !== this.state.confirmPassword) {
       this.setState({
@@ -63,7 +68,9 @@ export class Signup extends Component {
     }
   };
 
+  //
   handlePasswordInput = () => {
+    // if user have already input in the confirmPassword field, it check new input password with the already inputted confirmPassword field.
     if (this.state.onConfirmPasswordFocus) {
       if (this.state.password !== this.state.confirmPassword) {
         this.setState({
@@ -75,6 +82,7 @@ export class Signup extends Component {
         });
       }
     }
+    //secondly,it checks if input is empty or if not then checks if user entered strong password
 
     if (this.state.password.length === 0) {
       this.setState({
@@ -94,6 +102,7 @@ export class Signup extends Component {
     }
   };
 
+  //it checks if Email Input is empty or if not then checks if user entered valid format for email
   handleEmailInput = () => {
     if (this.state.email.length === 0) {
       this.setState({
@@ -112,6 +121,7 @@ export class Signup extends Component {
     }
   };
 
+//it checks if FirstName and SecondName Input is empty, if not then checks if it contains only alphabets and not special characters/numbers
   handleFirstNameAndLastNameInput = (event) => {
     if (this.state[event.target.name].length > 0) {
       if (isAlpha(this.state[event.target.name])) {
@@ -130,6 +140,7 @@ export class Signup extends Component {
     }
   };
 
+  //it checks if username Input is empty, if not then checks if it contains only alphabets and numbers not special characters
   handleUsernameInput = () => {
     if (this.state.username.length === 0) {
       this.setState({
@@ -148,12 +159,13 @@ export class Signup extends Component {
     }
   };
 
+  //its a form function in which when "submit" type button is pressed with enter this functions is called
   handleOnSubmit = (event) => {
     event.preventDefault();
-
     console.log(this.state);
   };
 
+  //this will execute when a user leaves any input field
   handleOnBlur = (event) => {
     console.log(event.target.name);
     console.log("handle onBlur Triggered");
@@ -166,6 +178,7 @@ export class Signup extends Component {
   };
 
   handleConfirmPasswordOnFocus = () => {
+    //when user first time input in the confirmPassword field, its set the onConfirmPasswordFocus to true 
     if (!this.state.onConfirmPasswordFocus) {
       this.setState({
         onConfirmPasswordFocus: true,
